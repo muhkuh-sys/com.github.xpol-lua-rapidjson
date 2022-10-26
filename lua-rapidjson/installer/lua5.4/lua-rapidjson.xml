@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jonchki-artifact version="1.0">
+	<info group="com.github.xpol"
+	      module="lua-rapidjson"
+	      artifact="lua5.4-lua-rapidjson"
+	      version="@PROJECT_VERSION@"
+	      vcs-id="@PROJECT_VERSION_VCS@"
+	      extension="tar.xz"
+	      platform="@JONCHKI_PLATFORM@">
+		<license name="MIT"/>
+		<author name="Xpol Wan" url="https://github.com/xpol/lua-rapidjson" />
+		<description>A JSON module for Lua based on the very fast RapidJSON library.</description>
+	</info>
+	<dependencies>
+		<build-dependency group="org.lua" module="lua" artifact="lua" version="5.4"/>
+	</dependencies>
+</jonchki-artifact>
