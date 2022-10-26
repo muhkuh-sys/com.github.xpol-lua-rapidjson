@@ -40,7 +40,7 @@ IF((${BUILDCFG_ONLY_JONCHKI_CFG} STREQUAL "OFF"))
 	                    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/lua-rapidjson
 	                    URL ${CMAKE_CURRENT_SOURCE_DIR}/lua-rapidjson-${VERSION_EXTERNAL}.tar.gz
 	                    URL_HASH SHA1=09322ef9a91596afbc2bf5303a8aa7c1c10af78d
-#	                    PATCH_COMMAND "${PYTHON_INTERPRETER}" ${CMAKE_HOME_DIRECTORY}/cmake/tools/apply_patches.py --working-folder ${CMAKE_CURRENT_BINARY_DIR}/lua-rapidjson/src/TARGET_lua_rapidjson --patch-folder ${CMAKE_CURRENT_SOURCE_DIR}/patches --strip 1
+	                    PATCH_COMMAND "${PYTHON_INTERPRETER}" ${CMAKE_HOME_DIRECTORY}/cmake/tools/apply_patches.py --working-folder ${CMAKE_CURRENT_BINARY_DIR}/lua-rapidjson/src/TARGET_lua_rapidjson --patch-folder ${CMAKE_CURRENT_SOURCE_DIR}/patches --strip 1
 	                    CMAKE_ARGS ${PRJ_CMAKE_ARGS}
 	                    INSTALL_COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/install/lua_plugins/ && ${CMAKE_COMMAND} -E copy ${LUA_RAPIDJSON_MODULE} ${CMAKE_CURRENT_BINARY_DIR}/install/lua_plugins/
 	)

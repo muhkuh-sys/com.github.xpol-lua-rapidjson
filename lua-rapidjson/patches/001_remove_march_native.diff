@@ -1,0 +1,18 @@
+diff -uNr lua-rapidjson-0.7.1/CMakeLists.txt lua-rapidjson-0.7.1_patched/CMakeLists.txt
+--- lua-rapidjson-0.7.1/CMakeLists.txt	2021-04-09 13:59:20.000000000 +0200
++++ lua-rapidjson-0.7.1_patched/CMakeLists.txt	2022-10-26 20:47:26.957977275 +0200
+@@ -33,10 +33,10 @@
+     endif(APPLE)
+     add_compile_options(-g -Wall -fPIC)
+     include(CheckCXXCompilerFlag)
+-    CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_SUPPORTS_ARCH_NATIVE)
+-    if (COMPILER_SUPPORTS_ARCH_NATIVE)
+-        add_compile_options(-march=native)
+-    endif()
++#    CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_SUPPORTS_ARCH_NATIVE)
++#    if (COMPILER_SUPPORTS_ARCH_NATIVE)
++#        add_compile_options(-march=native)
++#    endif()
+ else(UNIX)
+     if(WIN32)
+         set(PLAT "win32")
