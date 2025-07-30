@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-PROJECT("com.github.xpol-lua-rapidjson")
+PROJECT("com.github.xpol-rapidjson")
 
 # Get the VCS version for the jonchki configuration.
 INCLUDE(cmake/version.cmake)

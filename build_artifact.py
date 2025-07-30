@@ -35,7 +35,7 @@ strCfg_jonchkiHerePath = os.path.join(
     'jonchki'
 )
 # This is the Jonchki version to use.
-strCfg_jonchkiVersion = '0.0.8.1'
+strCfg_jonchkiVersion = '0.0.12.1'
 # Look in this folder for Jonchki archives before downloading them.
 strCfg_jonchkiLocalArchives = os.path.join(
     strCfg_projectFolder,
@@ -108,84 +108,6 @@ if tPlatform['host_distribution_id'] == 'ubuntu':
             astrJONCHKI_SYSTEM = []
             strMake = 'make'
 
-        elif tPlatform['cpu_architecture'] == 'armhf':
-            # Build on linux for raspberry.
-
-            astrCMAKE_COMPILER = [
-                '-DCMAKE_TOOLCHAIN_FILE=%s/cmake/toolchainfiles/toolchain_ubuntu_armhf.cmake' % strCfg_projectFolder
-            ]
-            astrCMAKE_PLATFORM = [
-                '-DJONCHKI_PLATFORM_DIST_ID=%s' % tPlatform['distribution_id'],
-                '-DJONCHKI_PLATFORM_DIST_VERSION=%s' % tPlatform['distribution_version'],
-                '-DJONCHKI_PLATFORM_CPU_ARCH=%s' % tPlatform['cpu_architecture']
-            ]
-
-            astrJONCHKI_SYSTEM = [
-                '--distribution-id %s' % tPlatform['distribution_id'],
-                '--distribution-version %s' % tPlatform['distribution_version'],
-                '--cpu-architecture %s' % tPlatform['cpu_architecture']
-            ]
-            strMake = 'make'
-
-        elif tPlatform['cpu_architecture'] == 'arm64':
-            # Build on linux for raspberry.
-
-            astrCMAKE_COMPILER = [
-                '-DCMAKE_TOOLCHAIN_FILE=%s/cmake/toolchainfiles/toolchain_ubuntu_arm64.cmake' % strCfg_projectFolder
-            ]
-            astrCMAKE_PLATFORM = [
-                '-DJONCHKI_PLATFORM_DIST_ID=%s' % tPlatform['distribution_id'],
-                '-DJONCHKI_PLATFORM_DIST_VERSION=%s' % tPlatform['distribution_version'],
-                '-DJONCHKI_PLATFORM_CPU_ARCH=%s' % tPlatform['cpu_architecture']
-            ]
-
-            astrJONCHKI_SYSTEM = [
-                '--distribution-id %s' % tPlatform['distribution_id'],
-                '--distribution-version %s' % tPlatform['distribution_version'],
-                '--cpu-architecture %s' % tPlatform['cpu_architecture']
-            ]
-            strMake = 'make'
-
-        else:
-            raise Exception('Unknown CPU architecture: "%s"' % tPlatform['cpu_architecture'])
-
-    elif tPlatform['distribution_id'] == 'windows':
-        # Cross build on linux for windows.
-
-        if tPlatform['cpu_architecture'] == 'x86':
-            # Build for 32bit windows.
-            astrCMAKE_COMPILER = [
-                '-DCMAKE_TOOLCHAIN_FILE=%s/cmake/toolchainfiles/toolchain_windows_32.cmake' % strCfg_projectFolder
-            ]
-            astrCMAKE_PLATFORM = [
-                '-DJONCHKI_PLATFORM_DIST_ID=windows',
-                '-DJONCHKI_PLATFORM_DIST_VERSION=""',
-                '-DJONCHKI_PLATFORM_CPU_ARCH=x86'
-            ]
-            astrJONCHKI_SYSTEM = [
-                '--distribution-id windows',
-                '--empty-distribution-version',
-                '--cpu-architecture x86'
-            ]
-            strMake = 'make'
-
-        elif tPlatform['cpu_architecture'] == 'x86_64':
-            # Build for 64bit windows.
-            astrCMAKE_COMPILER = [
-                '-DCMAKE_TOOLCHAIN_FILE=%s/cmake/toolchainfiles/toolchain_windows_64.cmake' % strCfg_projectFolder
-            ]
-            astrCMAKE_PLATFORM = [
-                '-DJONCHKI_PLATFORM_DIST_ID=windows',
-                '-DJONCHKI_PLATFORM_DIST_VERSION=""',
-                '-DJONCHKI_PLATFORM_CPU_ARCH=x86_64'
-            ]
-            astrJONCHKI_SYSTEM = [
-                '--distribution-id windows',
-                '--empty-distribution-version',
-                '--cpu-architecture x86_64'
-            ]
-            strMake = 'make'
-
         else:
             raise Exception('Unknown CPU architecture: "%s"' % tPlatform['cpu_architecture'])
 
@@ -217,12 +139,13 @@ strJonchki = jonchkihere.install(
     LOCAL_ARCHIVES=strCfg_jonchkiLocalArchives
 )
 
+
 # ---------------------------------------------------------------------------
 #
 # Get the build requirements for LUA5.1.
 #
 strCwd = os.path.join(strCfg_workingFolder, 'lua5.1', 'build_requirements')
-for strMatch in glob.iglob(os.path.join(strCwd, 'lua5.1-lua-rapidjson-*.xml')):
+for strMatch in glob.iglob(os.path.join(strCwd, 'lua5.1-rapidjson-*.xml')):
     os.remove(strMatch)
 
 astrCmd = [
@@ -239,11 +162,11 @@ astrCmd.append(strCfg_projectFolder)
 subprocess.check_call(' '.join(astrCmd), shell=True, cwd=strCwd, env=astrEnv)
 subprocess.check_call(strMake, shell=True, cwd=strCwd, env=astrEnv)
 
-astrMatch = glob.glob(os.path.join(strCwd, 'lua5.1-lua-rapidjson-*.xml'))
+astrMatch = glob.glob(os.path.join(strCwd, 'lua5.1-rapidjson-*.xml'))
 if len(astrMatch) == 0:
-    raise Exception('No match found for "lua5.1-lua-rapidjson-*.xml".')
+    raise Exception('No match found for "lua5.1-rapidjson-*.xml".')
 elif len(astrMatch) > 1:
-    raise Exception('More than one match found for "lua5.1-lua-rapidjson-*.xml". Clean your build folder.')
+    raise Exception('More than one match found for "lua5.1-rapidjson-*.xml". Clean your build folder.')
 
 astrCmd = [
     strJonchki,
@@ -282,7 +205,7 @@ subprocess.check_call('%s pack' % strMake, shell=True, cwd=strCwd, env=astrEnv)
 # Get the build requirements for LUA5.4.
 #
 strCwd = os.path.join(strCfg_workingFolder, 'lua5.4', 'build_requirements')
-for strMatch in glob.iglob(os.path.join(strCwd, 'lua5.4-lua-rapidjson-*.xml')):
+for strMatch in glob.iglob(os.path.join(strCwd, 'lua5.4-rapidjson-*.xml')):
     os.remove(strMatch)
 
 astrCmd = [
@@ -299,11 +222,11 @@ astrCmd.append(strCfg_projectFolder)
 subprocess.check_call(' '.join(astrCmd), shell=True, cwd=strCwd, env=astrEnv)
 subprocess.check_call(strMake, shell=True, cwd=strCwd, env=astrEnv)
 
-astrMatch = glob.glob(os.path.join(strCwd, 'lua5.4-lua-rapidjson-*.xml'))
+astrMatch = glob.glob(os.path.join(strCwd, 'lua5.4-rapidjson-*.xml'))
 if len(astrMatch) == 0:
-    raise Exception('No match found for "lua5.4-lua-rapidjson-*.xml".')
+    raise Exception('No match found for "lua5.4-rapidjson-*.xml".')
 elif len(astrMatch) > 1:
-    raise Exception('More than one match found for "lua5.4-lua-rapidjson-*.xml". Clean your build folder.')
+    raise Exception('More than one match found for "lua5.4-rapidjson-*.xml". Clean your build folder.')
 
 astrCmd = [
     strJonchki,
